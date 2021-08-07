@@ -8,6 +8,8 @@ Requirements:
 - Tkinter module
 - game.py file
 
+Download game.py by clicking <a href="https://raw.githubusercontent.com/seetohjinwei/Typing-Game/main/game.py" target="_blank">link</a> and right click then save as.
+
 Just run the following command:
 
     python3 game.py
