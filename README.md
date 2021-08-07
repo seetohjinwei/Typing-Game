@@ -6,6 +6,7 @@ How fast can you type?
 Requirements:
 - Python3
 - Tkinter module
+- game.py file
 
 Just run the following command:
 
