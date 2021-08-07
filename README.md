@@ -17,3 +17,5 @@ Just run the following command:
 PS: You can add a number like "python3 game.py 60" to make the games last 60 seconds instead of 30.
 
 PPS: This script will create a file called "scores". Just keeps track of your scores between sessions.
+
+List of words pulled from: https://www.mit.edu/~ecprice/wordlist.10000
