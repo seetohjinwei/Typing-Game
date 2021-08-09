@@ -1,14 +1,12 @@
 '''
 Built by See Toh Jin Wei
-
-Words sourced from Eric Price's website on MIT!
-I only filtered for words of length 5 or more.
-https://www.mit.edu/~ecprice/wordlist.10000
+Available at https://github.com/seetohjinwei/Typing-Game
 '''
 
 from os.path import isfile
 from queue import PriorityQueue
 import random
+import re
 import requests
 from sys import argv, exit
 from threading import Thread
@@ -18,7 +16,10 @@ from typing import Union
 
 WIDTH: int = 500
 HEIGHT: int = 200
-TIME: int = 30 if len(argv) == 1 else int(argv[1])
+if len(argv) == 2 and re.match(r"^\d+$", argv[1]):
+    TIME: int = int(argv[1])
+else:
+    TIME: int = 30
 
 class Scores():
     '''
@@ -96,6 +97,7 @@ class App(tk.Frame):
         self.scores: Scores = Scores()
         self.words: Words = Words()
         self.in_game: bool = False
+        self.running: bool = True
         self.score: int = None
         
         # GUI
@@ -132,6 +134,7 @@ class App(tk.Frame):
         self.display(self.buttonStart, "Stop!")
         self.display(self.messageDisplay, "Good luck!")
         self.display(self.wordDisplay, self.words.curr)
+        self.text_field.delete(0, "end")
         self.text_field.focus()
         
         # called in a separate thread so that the app doesn't freeze!
@@ -174,8 +177,8 @@ class App(tk.Frame):
         if not self.in_game:
             return
         user_input: str = self.text_field.get()
-        print(user_input)
-        if user_input == self.words.curr:
+        print(user_input, correct := user_input == self.words.curr)
+        if correct:
             self.score += 1
             self.text_field.delete(0, "end")
             self.words.next()
@@ -189,16 +192,10 @@ class App(tk.Frame):
         Message.configure(text=message)
 
 
-def main() -> None:
+def main(window: tk.Tk, app: App) -> None:
     '''
     Main Function
     '''
-    window = tk.Tk()
-    window.title("Typing Game")
-    # geometry can be used to set width and height of the window.
-    # window.geometry(f"{WIDTH}x{HEIGHT}")
-    app = App(window)
-            
     def key_pressed(press: tk.Event) -> None:
         '''
         Calls check_word when Return/Enter is pressed.
@@ -207,13 +204,14 @@ def main() -> None:
         if value == "Return" or value == "KP_Enter":
             app.check_word()
     
-    def window_closed():
+    def window_closed() -> None:
         '''
         Intercepts when the window is closed.
         Sets in_game = False to allow the timer Thread to exit.
         This is to prevent RuntimeError.
         '''
-        app.in_game = False
+        app.in_game = False  # exit timer safely
+        app.running = False  # exit cheat safely
         print("Shutting down...")
         exit()
     
@@ -224,4 +222,9 @@ def main() -> None:
 
 if __name__ == "__main__":
     print("... booting up")
-    main()
+    window = tk.Tk()
+    window.title("Typing Game")
+    # geometry can be used to set width and height of the window.
+    # window.geometry(f"{WIDTH}x{HEIGHT}")
+    app = App(window)
+    main(window, app)
