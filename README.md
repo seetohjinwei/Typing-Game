@@ -20,7 +20,7 @@ PPPS: There is a way to activate cheat mode.
 
 Cheat mode instructions:
 
-1. Download "cheat.py"
+1. Right click and save as: <a href="https://raw.githubusercontent.com/seetohjinwei/Typing-Game/main/cheat.py">cheat.py file</a>
 2. Make sure "game.py" and "cheat.py" are in the same folder
 3. Run "cheat.py" by itself to inject the cheat
 4. Run with "python3 game.py cheat" when you want cheat mode. Otherwise, cheat mode will not activate.
